@@ -1,32 +1,104 @@
 'use client';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
 import flowerImage from '../assets/image/flowers.png';
 
-export function Login() {
+// Component trái tim rơi tách biệt để tránh re-render khi nhập text
+const FallingHearts = () => {
+  return (
+    <div className="absolute w-full inset-0 overflow-hidden pointer-events-none">
+      {[...Array(30)].map((_, i) => (
+        <motion.div
+          key={`heart-${i}`}
+          className="absolute w-full text-pink-500"
+          initial={{
+            opacity: 0.7,
+            x: `${Math.random() * 100}%`,
+            y: -10,
+            scale: 0.3 + Math.random() * 0.3, // Làm trái tim nhỏ hơn
+          }}
+          animate={{
+            y: 100,
+            opacity: [0.7, 0.9, 0.7, 0.4, 0],
+            rotate: [-5, 5, -3, 5],
+          }}
+          transition={{
+            duration: 4 + Math.random() * 4,
+            repeat: Infinity,
+            delay: Math.random() * 8,
+            ease: 'linear',
+          }}
+          style={{ fontSize: `${8 + Math.random() * 6}px` }} // Giảm kích thước trái tim
+        >
+          ❤️
+        </motion.div>
+      ))}
+      {[...Array(15)].map((_, i) => (
+        <motion.div
+          key={`heart-${i}`}
+          className="absolute w-[25%] text-pink-500"
+          initial={{
+            opacity: 0.7,
+            x: `${Math.random() * 100}%`,
+            y: -10,
+            scale: 0.3 + Math.random() * 0.3, // Làm trái tim nhỏ hơn
+          }}
+          animate={{
+            y: 100,
+            opacity: [0.7, 0.9, 0.7, 0.4, 0],
+            rotate: [-5, 5, -3, 5],
+          }}
+          transition={{
+            duration: 4 + Math.random() * 4,
+            repeat: Infinity,
+            delay: Math.random() * 8,
+            ease: 'linear',
+          }}
+          style={{ fontSize: `${8 + Math.random() * 6}px` }} // Giảm kích thước trái tim
+        >
+          ❤️
+        </motion.div>
+      ))}
+    </div>
+  );
+};
+
+export function Login({ setCurrentStep }) {
   const [username, setUsername] = useState('');
   const [isVisible, setIsVisible] = useState(false);
+  const inputRef = useRef(null);
 
   useEffect(() => {
     setIsVisible(
       username === 'Trần Huyền Trân' ||
         username === 'Daisy' ||
         username === 'Công chúa nhỏ' ||
-        username === 'Daisie'
+        username === 'Daisie' ||
+        username === 'Em bé' ||
+        username === 'Em yêu'
     );
   }, [username]);
 
   return (
     <div className="z-50 relative">
       <form className="mt-4">
-        <input
-          onChange={(e) => setUsername(e.target.value)}
-          value={username}
-          type="text"
-          placeholder="Username"
-          className="block p-2 border mb-2 w-64"
-        />
+        <div className="relative rounded-[50px] overflow-hidden">
+          {/* Background gradient */}
+          <div className="absolute inset-0 bg-gradient-to-b from-pink-200 to-pink-500 opacity-90"></div>
+
+          {/* Tách component trái tim để tránh re-render khi nhập text */}
+          <FallingHearts />
+
+          <input
+            ref={inputRef}
+            onChange={(e) => setUsername(e.target.value)}
+            value={username}
+            type="text"
+            placeholder="Em là ai?"
+            className="relative caret-transparent z-10 outline-none placeholder:text-white border-none bg-transparent p-4 text-[30px] text-white font-love w-64"
+          />
+        </div>
 
         <div className="relative h-12 mt-4">
           {/* Nút tiếp tục */}
@@ -38,6 +110,7 @@ export function Login() {
               opacity: isVisible ? 1 : 0.5,
             }}
             transition={{ duration: 0.5 }}
+            onClick={() => setCurrentStep(2)}
           >
             Tiếp tục
           </motion.button>

@@ -1,9 +1,9 @@
-import { Login } from "@/components";
+import { HomeMain } from '@/modules';
 
 export default function Home() {
   return (
-    <div className="relative z-50">
-      <Login />
+    <div>
+      <HomeMain />
     </div>
   );
 }
