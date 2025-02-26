@@ -1,7 +1,7 @@
 'use client';
 import React, { useState, useEffect } from 'react';
 
-export const RippleEffect = () => {
+export const RippleEffect = ({ children }) => {
   const [ripples, setRipples] = useState([]);
 
   const handleClick = (e) => {
@@ -31,7 +31,7 @@ export const RippleEffect = () => {
           ...ripple,
           size: ripple.size + 2, // Tăng kích thước
           opacity: Math.max(0, ripple.opacity - 0.01), // Giảm dần độ mờ
-        })),
+        }))
       );
     }, 10);
 
@@ -40,12 +40,12 @@ export const RippleEffect = () => {
 
   return (
     <div
-      className="relative h-screen w-full bg-blue-100 overflow-hidden touch-none select-none"
+      className="relative h-screen w-full bg-transparent  overflow-hidden touch-none select-none"
       onClick={handleClick}
       onTouchStart={handleClick}
     >
       <div className="absolute inset-0 flex items-center justify-center text-gray-500 text-lg">
-        Click hoặc chạm vào bất kỳ đâu để tạo hiệu ứng gợn sóng
+        {children}
       </div>
 
       {ripples.map((ripple) => (

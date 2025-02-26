@@ -1,7 +1,6 @@
 import { Geist, Geist_Mono } from 'next/font/google';
 import './globals.css';
-import { RippleEffect } from '@/components/ripple';
-import { HeartCursorEffect } from '@/components/heart';
+import { HeartCursorEffect, RippleEffect } from '@/components';
 
 const geistSans = Geist({
   variable: '--font-geist-sans',

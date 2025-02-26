@@ -1,9 +1,8 @@
-import FilmStripAnimation from '@/components';
-import { Login } from '@/components/login';
+import { Login } from "@/components";
 
 export default function Home() {
   return (
-    <div>
+    <div className="relative z-50">
       <Login />
     </div>
   );
