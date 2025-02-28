@@ -27,7 +27,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} ${loversQuarrel.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} ${loversQuarrel.variable} antialiased bg-black`}
       >
         <HeartCursorEffect>
           <RippleEffect>{children}</RippleEffect>
