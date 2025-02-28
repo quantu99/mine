@@ -9,7 +9,7 @@ export function HomeMain() {
       case 1:
         return <Login setCurrentStep={setCurrentStep} />;
       case 2:
-        return <MultipleChoice />;
+        return <MultipleChoice setCurrentStep={setCurrentStep} />;
       default:
         return null;
     }
