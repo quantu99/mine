@@ -82,7 +82,7 @@ export function Login({ setCurrentStep }) {
 
   return (
     <div className="z-50 relative">
-      <form className="mt-4">
+      <div className="mt-4">
         <div className="relative rounded-[50px] overflow-hidden">
           {/* Background gradient */}
           <div className="absolute inset-0 bg-gradient-to-b from-pink-200 to-pink-500 opacity-90"></div>
@@ -169,7 +169,7 @@ export function Login({ setCurrentStep }) {
             />
           </motion.div>
         </div>
-      </form>
+      </div>
     </div>
   );
 }
