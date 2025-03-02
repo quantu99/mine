@@ -229,7 +229,7 @@ const ButtonHoverEffect = ({ isHovered, isGray = false }) => {
 const DreamBubble = () => {
   return (
     <motion.div
-      className="absolute -top-28 -right-[60px] z-10"
+      className="absolute -top-20 -right-10 sm:-top-28 sm:-right-[60px] z-10 scale-75 sm:scale-100"
       initial={{ opacity: 0, scale: 0.8 }}
       animate={{
         opacity: [0.7, 1, 0.7],
@@ -249,7 +249,7 @@ const DreamBubble = () => {
       }}
     >
       {/* Cloud bubbles floating up to the main bubble */}
-      <div className="relative">
+      <div className="absolute bottom-0 right-0">
         {/* Cloud bubble 1 */}
         <motion.div
           className="absolute -bottom-8 right-12 w-6 h-6 bg-white rounded-full shadow-sm blur-[1px]"
@@ -284,7 +284,7 @@ const DreamBubble = () => {
 
         {/* Cloud bubble 3 */}
         <motion.div
-          className="absolute -bottom-6 right-20 w-7 h-7 bg-white rounded-full shadow-sm blur-[1px]"
+          className="absolute -bottom-6 left-0 w-7 h-7 bg-white rounded-full shadow-sm blur-[1px]"
           initial={{ opacity: 0, y: 10 }}
           animate={{
             y: [-12, -30],
@@ -340,7 +340,7 @@ const DreamBubble = () => {
       </div>
 
       {/* Main thought bubble - cloud-like shape */}
-      <div className="w-32 h-24 bg-white rounded-xl shadow-md flex items-center justify-center overflow-hidden relative">
+      <div className="w-28 h-20 sm:w-32 sm:h-24 bg-white rounded-xl shadow-md flex items-center justify-center overflow-hidden relative">
         {/* Additional cloud-like effect for the main bubble */}
         <motion.div
           className="absolute -left-2 top-1/2 w-6 h-6 bg-white rounded-full"
@@ -432,7 +432,7 @@ const DreamBubble = () => {
         />
 
         <motion.span
-          className="text-pink-500 font-bold text-lg relative z-10"
+          className="text-pink-500 font-bold text-base sm:text-lg relative z-10"
           animate={{
             scale: [1, 1.05, 1],
             color: [
@@ -454,13 +454,14 @@ const DreamBubble = () => {
   );
 };
 
-export function WelcomeBack() {
+export function WelcomeBack({ setStep }) {
   const [currentStep, setCurrentStep] = useState('initial');
   const [displayedText, setDisplayedText] = useState('...');
   const [isTyping, setIsTyping] = useState(false);
   const [hoveredOption, setHoveredOption] = useState(null);
   const [isBackButtonHovered, setIsBackButtonHovered] = useState(false);
   const [isContinueButtonHovered, setIsContinueButtonHovered] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
 
   const messages = {
     initial: '...',
@@ -468,6 +469,22 @@ export function WelcomeBack() {
     introduction:
       'Chào mừng em đã trở lại với thế giới của Daisie! Anh là Pauly, là một phiên bản khác của Quân Từ trong thế giới điện tử này. Anh sẽ là người hướng dẫn cho em trong suốt quá trình khám phá chuyến đi thú vị lần này, chuyến đi có tên "Một năm kì diệu của chúng ta". Nói qua một chút để em hiểu rõ hơn, thông qua chuyến đi em có thể nhìn lại hành trình suốt một năm mà đối với riêng anh, là một năm vô cùng "kì diệu". Tại sao anh lại nói thế, và để xem cảm xúc của em xuyên suốt một năm qua là như thế nào. Giờ thì tụi mình bắt đầu nhé!!!',
   };
+
+  // Check if device is mobile
+  useEffect(() => {
+    const checkIfMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+
+    // Initial check
+    checkIfMobile();
+
+    // Add event listener for window resize
+    window.addEventListener('resize', checkIfMobile);
+
+    // Cleanup
+    return () => window.removeEventListener('resize', checkIfMobile);
+  }, []);
 
   useEffect(() => {
     if (!isTyping) return;
@@ -504,9 +521,7 @@ export function WelcomeBack() {
     setDisplayedText('...');
   };
 
-  const handleContinue = () => {
-    console.log('Moving to next step of the journey');
-  };
+  
 
   const optionVariants = {
     hover: {
@@ -530,10 +545,12 @@ export function WelcomeBack() {
   };
 
   return (
-    <div className="relative font-love min-w-[850px] my-8 mx-auto">
-      <div className="flex flex-row-reverse justify-between items-start">
-        <div className="relative rounded-[50%] w-[200px] h-[200px] border border-dashed border-slate-400 z-20">
-          <div className="flex-shrink-0 z-20 w-48 absolute -top-10">
+    <div className="relative font-love w-full md:min-w-[850px] px-4 md:px-8 my-4 md:my-8 mx-auto">
+      {/* Mobile layout - stacked */}
+      <div className="flex flex-col md:flex-row-reverse md:justify-between items-center md:items-start gap-4">
+        {/* Character section */}
+        <div className="relative rounded-[50%] w-[150px] h-[150px] md:w-[200px] md:h-[200px] border border-dashed border-slate-400 z-20">
+          <div className="flex-shrink-0 z-20 w-36 md:w-48 absolute -top-8 md:-top-10 left-1/2 -translate-x-1/2 md:left-0 md:translate-x-0">
             <Image
               src={image}
               width={400}
@@ -544,37 +561,30 @@ export function WelcomeBack() {
           </div>
           <DreamBubble />
           <div className="absolute -bottom-1 left-1/2 -translate-x-1/2 z-[21]">
-            <div
-              className="px-8 py-3 rounded-sm 
-    bg-gradient-to-r from-yellow-600 via-yellow-400 to-yellow-600
-    border border-yellow-700
-    shadow-md"
-            >
-              <div
-                className="text-[24px] font-bold text-center
-      text-amber-900"
-              >
+            <div className="px-4 md:px-8 py-2 md:py-3 rounded-sm bg-gradient-to-r from-yellow-600 via-yellow-400 to-yellow-600 border border-yellow-700 shadow-md">
+              <div className="text-lg md:text-[24px] font-bold text-center text-amber-900">
                 Mr.Paulie
               </div>
             </div>
           </div>
         </div>
 
-        <div className="flex flex-col mr-8 w-full min-w-80 max-w-lg text-[35px]">
+        {/* Dialogue section */}
+        <div className="flex flex-col w-full md:mr-8 max-w-full md:max-w-lg">
           <motion.div
-            className="relative p-6 bg-white rounded-lg shadow-md min-h-40"
+            className="relative p-4 md:p-6 bg-white rounded-lg shadow-md min-h-[120px] md:min-h-40 mt-4 md:mt-0"
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.5 }}
-            style={{ maxHeight: '500px' }}
+            style={{ maxHeight: '500px', fontSize: isMobile ? '18px' : '35px' }}
           >
             {/* Add triangle pointer for dialogue indication */}
-            <div className="absolute right-0 top-8 w-4 h-4 bg-white transform rotate-45 translate-x-2" />
+            <div className="absolute right-1/2 translate-x-1/2 -top-2 md:right-0 md:top-8 md:translate-x-0 w-4 h-4 bg-white transform rotate-45 md:translate-x-2" />
 
             {/* Add falling hearts and animations inside the chat box */}
             <FallingHearts show={true} />
             {/* Message text */}
-            <p className="text-gray-800 z-10 relative">
+            <p className="text-gray-800 z-10 relative text-base md:text-[35px]">
               {displayedText}
               {isTyping && (
                 <motion.span
@@ -587,11 +597,14 @@ export function WelcomeBack() {
               )}
             </p>
           </motion.div>
+
           {/* Option buttons or navigation buttons */}
           <div className="mt-4">
             {currentStep === 'initial' && (
               <div className="space-y-2">
-                <p className="text-gray-600 font-medium mb-2">Trò chuyện:</p>
+                <p className="text-gray-600 font-medium mb-2 text-sm md:text-base">
+                  Trò chuyện:
+                </p>
                 {['introduction', 'whoAreYou'].map((option, index) => {
                   const optionText =
                     option === 'introduction' ? 'Em là Daisy nè' : 'Anh là ai?';
@@ -603,7 +616,7 @@ export function WelcomeBack() {
                       onClick={() => handleOptionClick(option)}
                       onMouseEnter={() => setHoveredOption(index)}
                       onMouseLeave={() => setHoveredOption(null)}
-                      className="relative w-full py-2 px-4 bg-blue-500 text-white rounded-md overflow-hidden"
+                      className="relative w-full py-2 px-4 bg-blue-500 text-white rounded-md overflow-hidden text-sm md:text-base"
                       variants={optionVariants}
                       initial="initial"
                       whileHover="hover"
@@ -625,12 +638,12 @@ export function WelcomeBack() {
             {(currentStep === 'whoAreYou' ||
               currentStep === 'introduction') && (
               <div className="flex justify-between">
-                {/* Back button with hover effects - now with gray gradient like in MultipleChoice */}
+                {/* Back button with hover effects */}
                 <motion.button
                   onClick={handleBack}
                   onMouseEnter={() => setIsBackButtonHovered(true)}
                   onMouseLeave={() => setIsBackButtonHovered(false)}
-                  className="relative py-2 px-4 bg-gray-300 text-gray-700 rounded-md overflow-hidden"
+                  className="relative py-2 px-4 bg-gray-300 text-gray-700 rounded-md overflow-hidden text-sm md:text-base"
                   variants={optionVariants}
                   initial="initial"
                   whileHover="hover"
@@ -650,16 +663,16 @@ export function WelcomeBack() {
 
                 {currentStep === 'introduction' && !isTyping && (
                   <motion.button
-                    onClick={handleContinue}
+                    onClick={() => setStep(4)}
                     onMouseEnter={() => setIsContinueButtonHovered(true)}
                     onMouseLeave={() => setIsContinueButtonHovered(false)}
-                    className="relative py-2 px-4 bg-purple-100 text-purple-700 rounded-md overflow-hidden"
+                    className="relative py-2 px-4 bg-purple-100 text-purple-700 rounded-md overflow-hidden text-sm md:text-base"
                     variants={optionVariants}
                     initial="initial"
                     whileHover="hover"
                     whileTap="tap"
                   >
-                    {/* Purple gradient hover effect - matching MultipleChoice style */}
+                    {/* Purple gradient hover effect */}
                     <ButtonHoverEffect isHovered={isContinueButtonHovered} />
 
                     {/* Sparkling effect */}

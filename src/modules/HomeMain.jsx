@@ -1,10 +1,10 @@
 'use client';
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Login, MultipleChoice, WelcomeBack } from '@/components';
+import { Login, MultipleChoice, StoryTour, WelcomeBack } from '@/components';
 
 export function HomeMain() {
-  const [currentStep, setCurrentStep] = useState(3);
+  const [currentStep, setCurrentStep] = useState(1);
   const [backgroundStyle, setBackgroundStyle] = useState({});
   
   useEffect(() => {
@@ -55,7 +55,9 @@ export function HomeMain() {
       case 2:
         return <MultipleChoice setCurrentStep={setCurrentStep} />;
       case 3:
-        return <WelcomeBack />
+        return <WelcomeBack setStep={setCurrentStep} />
+      case 4:
+        return <StoryTour setCurrentStep={setCurrentStep} />
       default:
         return null;
     }
@@ -86,7 +88,7 @@ export function HomeMain() {
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -20 }}
           transition={{ duration: 0.5 }}
-          className="z-10 relative"
+          className="z-10 relative w-full"
         >
           {renderContent()}
         </motion.div>
