@@ -1,40 +1,41 @@
 'use client';
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Login, MultipleChoice, StoryTour, WelcomeBack } from '@/components';
+import {
+  Login,
+  MultipleChoice,
+  OurStory,
+  StoryTour,
+  WelcomeBack,
+} from '@/components';
 
 export function HomeMain() {
-  const [currentStep, setCurrentStep] = useState(1);
+  const [currentStep, setCurrentStep] = useState(6);
   const [backgroundStyle, setBackgroundStyle] = useState({});
   
   useEffect(() => {
     switch (currentStep) {
       case 1:
-        // Step 1: Pure black background
         setBackgroundStyle({
           background: 'black',
         });
         break;
       case 2:
-        // Step 2: Gradient from black to pink (subtle)
         setBackgroundStyle({
           background: 'linear-gradient(135deg, #000000 60%, #ff69b4 120%)',
         });
         break;
       case 3:
-        // Step 3: More visible gradient
         setBackgroundStyle({
           background: 'linear-gradient(135deg, #000000 40%, #ff69b4 100%)',
         });
         break;
       case 4:
-        // Step 4: Stronger pink
         setBackgroundStyle({
           background: 'linear-gradient(135deg, #000000 20%, #ff69b4 80%)',
         });
         break;
       case 5:
-        // Final step: Full glossy pink with radial highlight for "shiny" effect
         setBackgroundStyle({
           background:
             'radial-gradient(circle at 30% 30%, #ff8dc6 0%, #ff69b4 40%, #ff4da6 80%)',
@@ -47,7 +48,7 @@ export function HomeMain() {
         });
     }
   }, [currentStep]);
-  
+
   const renderContent = () => {
     switch (currentStep) {
       case 1:
@@ -55,44 +56,52 @@ export function HomeMain() {
       case 2:
         return <MultipleChoice setCurrentStep={setCurrentStep} />;
       case 3:
-        return <WelcomeBack setStep={setCurrentStep} />
+        return <WelcomeBack setStep={setCurrentStep} />;
       case 4:
-        return <StoryTour setCurrentStep={setCurrentStep} />
+        return <StoryTour setCurrentStep={setCurrentStep} />;
+      case 6:
+        return <OurStory />;
       default:
         return null;
     }
   };
-  
+
   return (
-    <div 
-      className="min-h-screen w-full flex items-center justify-center"
-      style={backgroundStyle}
-    >
-      {/* Background layer with animation */}
-      <AnimatePresence mode="wait">
-        <motion.div
-          key={currentStep}
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          transition={{ duration: 0.6 }}
-          className="w-full h-full absolute top-0 left-0"
-        />
-      </AnimatePresence>
-      
-      {/* Content layer */}
-      <AnimatePresence mode="wait">
-        <motion.div
-          key={currentStep}
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: -20 }}
-          transition={{ duration: 0.5 }}
-          className="z-10 relative w-full"
+    <>
+      {currentStep === 6 ? (
+        <div className="w-full">{renderContent()}</div>
+      ) : (
+        <div
+          className="min-h-screen w-full"
+          style={backgroundStyle}
         >
-          {renderContent()}
-        </motion.div>
-      </AnimatePresence>
-    </div>
+          {/* Background layer with animation */}
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={currentStep}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.6 }}
+              className={`w-full h-full absolute top-0 left-0`}
+            />
+          </AnimatePresence>
+          
+          {/* Content layer */}
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={currentStep}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              transition={{ duration: 0.5 }}
+              className="z-10 relative w-full"
+            >
+              {renderContent()}
+            </motion.div>
+          </AnimatePresence>
+        </div>
+      )}
+    </>
   );
 }

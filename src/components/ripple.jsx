@@ -95,11 +95,11 @@ export const RippleEffect = ({ children }) => {
   
   return (
     <div 
-      className="relative w-full h-screen bg-transparent overflow-hidden touch-none select-none"
+      className="relative w-full min-h-screen bg-transparent touch-none select-none overflow-y-auto"
       onClick={handleClick}
       onTouchStart={handleClick}
     >
-      <div className="absolute inset-0 flex items-center justify-center text-gray-500 text-lg">
+      <div className="absolute overflow-y-auto inset-0 flex items-center justify-center text-gray-500 text-lg">
         {children}
       </div>
       

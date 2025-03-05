@@ -103,7 +103,7 @@ export const HeartCursorEffect = ({ children }) => {
   }, [lastPosition]);
 
   return (
-    <div className="relative min-h-screen w-full overflow-hidden">
+    <div className="relative min-h-screen w-full">
       {/* Nội dung chính */}
       {children}
       

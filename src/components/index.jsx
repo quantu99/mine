@@ -4,3 +4,4 @@ export * from './login';
 export * from './MultipleChoice';
 export * from './WelcomeBack';
 export * from './StoryTour';
+export * from "./OurStory";
