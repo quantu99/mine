@@ -547,7 +547,7 @@ export function WelcomeBack({ setStep }) {
   return (
     <div className="relative font-love w-full md:min-w-[850px] px-4 md:px-8 my-4 md:my-8 mx-auto">
       {/* Mobile layout - stacked */}
-      <div className="flex flex-col md:flex-row-reverse md:justify-between items-center md:items-start gap-4">
+      <div className="flex flex-col md:flex-row-reverse h-screen justify-center md:justify-between items-center md:items-start gap-4">
         {/* Character section */}
         <div className="relative rounded-[50%] w-[150px] h-[150px] md:w-[200px] md:h-[200px] border border-dashed border-slate-400 z-20">
           <div className="flex-shrink-0 z-20 w-36 md:w-48 absolute -top-8 md:-top-10 left-1/2 -translate-x-1/2 md:left-0 md:translate-x-0">

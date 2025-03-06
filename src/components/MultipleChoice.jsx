@@ -333,13 +333,11 @@ export function MultipleChoice({ setCurrentStep }) {
         isCorrect: true,
       });
 
-      // Use setTimeout to show the feedback before moving to next question
       setTimeout(() => {
         if (questionStep < questions.length - 1) {
           setQuestionStep(questionStep + 1);
           setFeedbackMessage(null);
         } else {
-          // If all questions are answered correctly, move to the next step (3)
           if (setCurrentStep) {
             setCurrentStep(3);
           }
@@ -355,7 +353,6 @@ export function MultipleChoice({ setCurrentStep }) {
 
   const currentQuestion = questions[questionStep];
 
-  // Animation variants for options
   const optionVariants = {
     hover: {
       scale: 1.02,
@@ -378,8 +375,8 @@ export function MultipleChoice({ setCurrentStep }) {
   };
 
   return (
-    <div className="max-w-md relative overflow-hidden mx-auto mt-10 p-6 bg-white rounded-lg shadow-md font-love min-w-[500px]">
-      {/* Gradient background */}
+    <div className='flex justify-center items-center h-screen'>
+      <div className="max-w-md relative overflow-hidden mx-auto mt-10 p-6 bg-white rounded-lg shadow-md font-love min-w-[500px]">
       <div className="absolute inset-0 bg-gradient-to-b from-pink-200 to-pink-500 opacity-90 z-0"></div>
 
       <FallingHearts show={true} />
@@ -518,6 +515,7 @@ export function MultipleChoice({ setCurrentStep }) {
           Tiếp tục
         </button>
       </motion.div>
+    </div>
     </div>
   );
 }

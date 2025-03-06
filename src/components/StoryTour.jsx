@@ -44,6 +44,62 @@ const FallingHearts = () => {
   );
 };
 
+// Component cho thông báo xoay màn hình
+const RotateDeviceMessage = () => {
+  return (
+    <div className="fixed inset-0 bg-black bg-opacity-90 z-50 flex flex-col items-center justify-center text-white p-4">
+      <svg className="w-20 h-20 mb-4 animate-pulse" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <rect x="5" y="2" width="14" height="20" rx="2" ry="2" />
+        <path d="M12 18h.01" />
+      </svg>
+      <div className="w-16 h-16 border-2 border-white rounded-lg relative mb-4">
+        <svg className="absolute inset-0 w-full h-full animate-spin-slow" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+          <path d="M12 4V2m0 20v-2m8-8h2M2 12h2m13.657-5.657l1.414-1.414M4.929 19.071l1.414-1.414m0-11.314L4.93 4.93m15.142 15.142l-1.414-1.414" />
+        </svg>
+      </div>
+      <p className="text-xl font-bold mb-2">Vui lòng xoay thiết bị</p>
+      <p className="text-center">Trải nghiệm tốt nhất khi xem ở chế độ ngang</p>
+    </div>
+  );
+};
+
+// Component cho các nút điều khiển trên thiết bị di động
+const MobileControls = ({ onLeft, onRight, onJump }) => {
+  return (
+    <div className="fixed bottom-16 left-0 right-0 flex justify-between px-8 z-40 md:hidden">
+      <div className="flex space-x-4">
+        <button
+          className="w-16 h-16 bg-white bg-opacity-60 rounded-full flex items-center justify-center active:bg-opacity-80 touch-manipulation"
+          onTouchStart={onLeft}
+          onTouchEnd={() => {}}
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+          </svg>
+        </button>
+        <button
+          className="w-16 h-16 bg-white bg-opacity-60 rounded-full flex items-center justify-center active:bg-opacity-80 touch-manipulation"
+          onTouchStart={onRight}
+          onTouchEnd={() => {}}
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+          </svg>
+        </button>
+      </div>
+      <button
+        className="w-16 h-16 bg-white bg-opacity-60 rounded-full flex items-center justify-center active:bg-opacity-80 touch-manipulation"
+        onTouchStart={onJump}
+        onTouchEnd={() => {}}
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 15l7-7 7 7" />
+        </svg>
+      </button>
+    </div>
+  );
+};
+
 export function StoryTour({setCurrentStep}) {
   // Game state
   const [playerPosition, setPlayerPosition] = useState({ x: 100, y: 0 });
@@ -68,6 +124,10 @@ export function StoryTour({setCurrentStep}) {
   const [starsOpacity, setStarsOpacity] = useState(1); // Separate state for stars opacity
   const [floatingHearts, setFloatingHearts] = useState([]);
   
+  // Responsive states
+  const [isPortrait, setIsPortrait] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+  
   const gameContainerRef = useRef(null);
   const groundLevel = 120; // Distance from bottom
   const princessPosition = 500;
@@ -79,7 +139,47 @@ export function StoryTour({setCurrentStep}) {
     "Great job! You've found all the hearts. The princess will appear as day comes!",
   ];
 
-  // Handle keyboard input - Thay đổi: Cập nhật sự kiện facingRight chỉ khi nhấn mũi tên trái
+  // Detect device orientation and type
+  useEffect(() => {
+    const checkOrientation = () => {
+      setIsPortrait(window.innerHeight > window.innerWidth);
+    };
+
+    const checkDeviceType = () => {
+      setIsMobile(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent));
+    };
+
+    // Initial checks
+    checkOrientation();
+    checkDeviceType();
+
+    // Set up listeners
+    window.addEventListener('resize', checkOrientation);
+    window.addEventListener('orientationchange', checkOrientation);
+
+    return () => {
+      window.removeEventListener('resize', checkOrientation);
+      window.removeEventListener('orientationchange', checkOrientation);
+    };
+  }, []);
+
+  // Responsive positioning for game elements
+  useEffect(() => {
+    if (gameContainerRef.current) {
+      const gameWidth = gameContainerRef.current.clientWidth;
+      
+      // Adjust heart positions based on screen width
+      if (gameWidth < 768) {
+        setHearts([
+          { id: 1, x: gameWidth * 0.25, y: 120, collected: hearts[0].collected },
+          { id: 2, x: gameWidth * 0.5, y: 120, collected: hearts[1].collected },
+          { id: 3, x: gameWidth * 0.75, y: 120, collected: hearts[2].collected },
+        ]);
+      }
+    }
+  }, [isMobile, gameContainerRef.current?.clientWidth]);
+
+  // Handle keyboard input
   useEffect(() => {
     const handleKeyDown = (e) => {
       if (showMessage) {
@@ -100,45 +200,17 @@ export function StoryTour({setCurrentStep}) {
             ...prev,
             x: Math.max(50, prev.x - speed),
           }));
-          setFacingRight(false); // Chỉ đặt facingRight = false khi nhấn mũi tên trái
+          setFacingRight(false);
           break;
         case 'ArrowRight':
           setPlayerPosition((prev) => ({
             ...prev,
             x: Math.min(750, prev.x + speed),
           }));
-          setFacingRight(true); // Đặt facingRight = true khi nhấn mũi tên phải
+          setFacingRight(true);
           break;
         case 'ArrowUp':
-          if (!isJumping) {
-            setIsJumping(true);
-            // Check for heart collision during jump
-            const jumpInterval = setInterval(() => {
-              setPlayerPosition((prev) => {
-                // Simple jump arc
-                if (prev.y < 100 && isJumping) {
-                  return { ...prev, y: prev.y + 10 };
-                } else {
-                  // Reset jumping when landing
-                  setIsJumping(false);
-                  clearInterval(jumpInterval);
-
-                  // Check heart collisions
-                  hearts.forEach((heart, index) => {
-                    if (
-                      !heart.collected &&
-                      Math.abs(heart.x - prev.x) < 50 &&
-                      Math.abs(groundLevel - heart.y - prev.y) < 50
-                    ) {
-                      collectHeart(index);
-                    }
-                  });
-
-                  return { ...prev, y: 0 };
-                }
-              });
-            }, 50);
-          }
+          handleJump();
           break;
         default:
           break;
@@ -151,6 +223,74 @@ export function StoryTour({setCurrentStep}) {
       window.removeEventListener('keydown', handleKeyDown);
     };
   }, [hearts, isJumping, showMessage, heartsCollected, dayTransition]);
+
+  // Handle jump logic
+  const handleJump = () => {
+    if (!isJumping) {
+      setIsJumping(true);
+      // Check for heart collision during jump
+      const jumpInterval = setInterval(() => {
+        setPlayerPosition((prev) => {
+          // Simple jump arc
+          if (prev.y < 100 && isJumping) {
+            return { ...prev, y: prev.y + 10 };
+          } else {
+            // Reset jumping when landing
+            setIsJumping(false);
+            clearInterval(jumpInterval);
+
+            // Check heart collisions
+            hearts.forEach((heart, index) => {
+              if (
+                !heart.collected &&
+                Math.abs(heart.x - prev.x) < 50 &&
+                Math.abs(groundLevel - heart.y - prev.y) < 50
+              ) {
+                collectHeart(index);
+              }
+            });
+
+            return { ...prev, y: 0 };
+          }
+        });
+      }, 50);
+    }
+  };
+
+  // Mobile control handlers
+  const handleMoveLeft = () => {
+    const moveInterval = setInterval(() => {
+      setPlayerPosition((prev) => ({
+        ...prev,
+        x: Math.max(50, prev.x - 5),
+      }));
+      setFacingRight(false);
+    }, 20);
+
+    // Add touch event to document to detect when finger is lifted
+    const handleTouchEnd = () => {
+      clearInterval(moveInterval);
+      document.removeEventListener('touchend', handleTouchEnd);
+    };
+    document.addEventListener('touchend', handleTouchEnd);
+  };
+
+  const handleMoveRight = () => {
+    const moveInterval = setInterval(() => {
+      setPlayerPosition((prev) => ({
+        ...prev,
+        x: Math.min(750, prev.x + 5),
+      }));
+      setFacingRight(true);
+    }, 20);
+
+    // Add touch event to document to detect when finger is lifted
+    const handleTouchEnd = () => {
+      clearInterval(moveInterval);
+      document.removeEventListener('touchend', handleTouchEnd);
+    };
+    document.addEventListener('touchend', handleTouchEnd);
+  };
 
   // Handle day/night transition
   useEffect(() => {
@@ -269,12 +409,16 @@ export function StoryTour({setCurrentStep}) {
     // Add any specific logic for each step transition here
     // For example, you could change scenes, show new characters, etc.
   };
+
   return (
     <div
       className="w-full h-screen overflow-hidden relative"
       ref={gameContainerRef}
       style={{ backgroundColor: skyColor, transition: 'background-color 1s ease' }}
     >
+      {/* Show rotate device message on mobile portrait mode */}
+      {isMobile && isPortrait && <RotateDeviceMessage />}
+
       {/* Sky with stars */}
       <div className="absolute top-0 w-full right-0">
         <Image
@@ -383,8 +527,11 @@ export function StoryTour({setCurrentStep}) {
 
       {/* Princess (gradually appears after collecting all hearts) */}
       <motion.div 
-        className="absolute right-[500px] bottom-32 transition-opacity duration-1000 "
-        style={{ opacity: princessOpacity }}
+        className="absolute right-0 md:right-[500px] bottom-32 transition-opacity duration-1000"
+        style={{ 
+          opacity: princessOpacity,
+          right: isMobile ? `${gameContainerRef.current?.clientWidth * 0.7}px` : '500px'
+        }}
         animate={{
           y: [0, -5, 0], // Same bouncing animation as character
         }}
@@ -424,7 +571,7 @@ export function StoryTour({setCurrentStep}) {
         )}
       </motion.div>
 
-      {/* Character - Làm nhân vật cao hơn bằng cách thay đổi kích thước */}
+      {/* Character */}
       <motion.div
         className="absolute bottom-0"
         style={{
@@ -445,12 +592,11 @@ export function StoryTour({setCurrentStep}) {
         <Image
           src={character}
           alt="character"
-          height={500}  // Tăng chiều cao từ 200 lên 220
+          height={500}
           width={65} 
           style={{
             transform: facingRight ? 'scaleX(1)' : 'scaleX(-1)',  
           }}
-          // Tăng chiều rộng từ 60 lên 65
         />
 
         {/* Chat bubble for character - với gradient background */}
@@ -481,7 +627,7 @@ export function StoryTour({setCurrentStep}) {
         <motion.div
           className="absolute z-40"
           style={{
-            left: (playerPosition.x + princessPosition - 60) / 2,
+            left: (playerPosition.x + (isMobile ? gameContainerRef.current?.clientWidth * 0.7 : princessPosition) - 60) / 2,
             bottom: groundLevel + 60
           }}
           initial={{ scale: 0, opacity: 0 }}
@@ -528,6 +674,7 @@ export function StoryTour({setCurrentStep}) {
         />
         <span className="ml-2 font-bold">{heartsCollected}/3</span>
       </div>
+      
       {/* Next step button - Only shown after chat bubbles appear */}
       {showChatBubbles && (
         <div className="absolute bottom-4 right-4">
@@ -543,10 +690,19 @@ export function StoryTour({setCurrentStep}) {
         </div>
       )}
 
-      {/* Controls hint */}
-      <div className="absolute bottom-4 left-4 bg-white bg-opacity-80 p-2 rounded-lg text-sm">
+      {/* Controls hint - desktop only */}
+      <div className="absolute bottom-4 left-4 bg-white bg-opacity-80 p-2 rounded-lg text-sm hidden md:block">
         Use arrow keys to move ← → and jump ↑
       </div>
+
+      {/* Mobile touch controls */}
+      {isMobile && !isPortrait && (
+        <MobileControls 
+          onLeft={handleMoveLeft}
+          onRight={handleMoveRight}
+          onJump={handleJump}
+        />
+      )}
     </div>
   );
 }

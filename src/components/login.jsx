@@ -64,9 +64,197 @@ const FallingHearts = () => {
   );
 };
 
+// Enhanced Button Hover Effect Component
+const ButtonHoverEffect = ({ isHovered }) => {
+  if (!isHovered) return null;
+
+  return (
+    <motion.div
+      className="absolute inset-0 bg-gradient-to-r from-purple-200 via-purple-400 to-purple-300 z-0"
+      animate={{
+        opacity: [0.5, 0.8, 0.5],
+        backgroundPosition: ['0% 50%', '100% 50%', '0% 50%'],
+      }}
+      transition={{
+        duration: 2,
+        repeat: Infinity,
+        ease: 'easeInOut',
+      }}
+    />
+  );
+};
+
+// Sparkle Animation Component
+const Sparkles = ({ show }) => {
+  if (!show) return null;
+
+  return (
+    <div className="absolute inset-0 overflow-hidden pointer-events-none">
+      {[...Array(15)].map((_, i) => (
+        <motion.div
+          key={`sparkle-${i}`}
+          className="absolute rounded-full bg-white"
+          style={{
+            width: `${2 + Math.random() * 4}px`,
+            height: `${2 + Math.random() * 4}px`,
+            left: `${Math.random() * 100}%`,
+            top: `${Math.random() * 100}%`,
+          }}
+          initial={{ opacity: 0, scale: 0 }}
+          animate={{
+            opacity: [0, 1, 0],
+            scale: [0, 1, 0],
+            boxShadow: [
+              '0 0 0 rgba(255, 255, 255, 0)',
+              '0 0 8px rgba(255, 255, 255, 0.8)',
+              '0 0 0 rgba(255, 255, 255, 0)',
+            ],
+          }}
+          transition={{
+            duration: 1 + Math.random(),
+            repeat: Infinity,
+            delay: Math.random() * 2,
+            repeatDelay: Math.random() * 3,
+          }}
+        />
+      ))}
+    </div>
+  );
+};
+
+// Border Light Animation
+const BorderLight = ({ show }) => {
+  if (!show) return null;
+
+  return (
+    <>
+      {/* Top border light */}
+      <motion.div
+        className="absolute top-0 left-0 h-1 bg-gradient-to-r from-purple-300 via-pink-400 to-purple-300"
+        style={{ width: '100%' }}
+        animate={{
+          left: ['-100%', '100%'],
+          boxShadow: [
+            '0 0 2px rgba(255, 105, 180, 0.5)',
+            '0 0 8px rgba(255, 105, 180, 0.8)',
+            '0 0 2px rgba(255, 105, 180, 0.5)',
+          ],
+        }}
+        transition={{
+          repeat: Infinity,
+          duration: 2,
+          ease: 'linear',
+          boxShadow: {
+            repeat: Infinity,
+            duration: 1.5,
+          },
+        }}
+      />
+
+      {/* Right border light */}
+      <motion.div
+        className="absolute top-0 right-0 w-1 bg-gradient-to-b from-purple-300 via-pink-400 to-purple-300"
+        style={{ height: '100%' }}
+        animate={{
+          top: ['-100%', '100%'],
+          boxShadow: [
+            '0 0 2px rgba(255, 105, 180, 0.5)',
+            '0 0 8px rgba(255, 105, 180, 0.8)',
+            '0 0 2px rgba(255, 105, 180, 0.5)',
+          ],
+        }}
+        transition={{
+          repeat: Infinity,
+          duration: 2,
+          ease: 'linear',
+          delay: 0.5,
+          boxShadow: {
+            repeat: Infinity,
+            duration: 1.5,
+            delay: 0.5,
+          },
+        }}
+      />
+
+      {/* Bottom border light */}
+      <motion.div
+        className="absolute bottom-0 left-0 h-1 bg-gradient-to-r from-purple-300 via-pink-400 to-purple-300"
+        style={{ width: '100%' }}
+        animate={{
+          left: ['100%', '-100%'],
+          boxShadow: [
+            '0 0 2px rgba(255, 105, 180, 0.5)',
+            '0 0 8px rgba(255, 105, 180, 0.8)',
+            '0 0 2px rgba(255, 105, 180, 0.5)',
+          ],
+        }}
+        transition={{
+          repeat: Infinity,
+          duration: 2,
+          ease: 'linear',
+          delay: 1,
+          boxShadow: {
+            repeat: Infinity,
+            duration: 1.5,
+            delay: 1,
+          },
+        }}
+      />
+
+      {/* Left border light */}
+      <motion.div
+        className="absolute top-0 left-0 w-1 bg-gradient-to-b from-purple-300 via-pink-400 to-purple-300"
+        style={{ height: '100%' }}
+        animate={{
+          top: ['100%', '-100%'],
+          boxShadow: [
+            '0 0 2px rgba(255, 105, 180, 0.5)',
+            '0 0 8px rgba(255, 105, 180, 0.8)',
+            '0 0 2px rgba(255, 105, 180, 0.5)',
+          ],
+        }}
+        transition={{
+          repeat: Infinity,
+          duration: 2,
+          ease: 'linear',
+          delay: 1.5,
+          boxShadow: {
+            repeat: Infinity,
+            duration: 1.5,
+            delay: 1.5,
+          },
+        }}
+      />
+
+      {/* Inner glow */}
+      <motion.div
+        className="absolute inset-0 rounded-lg opacity-20"
+        animate={{
+          backgroundColor: [
+            'rgba(255, 182, 193, 0.2)',
+            'rgba(216, 131, 240, 0.4)',
+            'rgba(255, 182, 193, 0.2)',
+          ],
+          boxShadow: [
+            'inset 0 0 5px rgba(255, 105, 180, 0.2)',
+            'inset 0 0 15px rgba(255, 105, 180, 0.4)',
+            'inset 0 0 5px rgba(255, 105, 180, 0.2)',
+          ],
+        }}
+        transition={{
+          repeat: Infinity,
+          duration: 3,
+          ease: 'easeInOut',
+        }}
+      />
+    </>
+  );
+};
+
 export function Login({ setCurrentStep }) {
   const [username, setUsername] = useState('');
   const [isVisible, setIsVisible] = useState(false);
+  const [isButtonHovered, setIsButtonHovered] = useState(false);
   const inputRef = useRef(null);
 
   useEffect(() => {
@@ -81,7 +269,7 @@ export function Login({ setCurrentStep }) {
   }, [username]);
 
   return (
-    <div className="z-50 relative">
+    <div className="flex justify-center items-center h-screen">
       <div className="mt-4">
         <div className="relative rounded-[50px] overflow-hidden">
           {/* Background gradient */}
@@ -101,17 +289,44 @@ export function Login({ setCurrentStep }) {
         </div>
 
         <div className="relative h-12 mt-4">
-          {/* Nút tiếp tục */}
+          {/* Nút tiếp tục với hiệu ứng hover */}
           <motion.button
             type="submit"
-            className="bg-pink-500 text-white px-4 mt-10 py-2 rounded w-64"
+            className="relative bg-pink-500 text-white px-4 mt-10 py-2 rounded w-64 z-10 overflow-hidden"
             disabled={!isVisible}
             animate={{
               opacity: isVisible ? 1 : 0.5,
             }}
+            whileHover={{
+              scale: isVisible ? 1.02 : 1,
+              transition: { duration: 0.2 },
+            }}
+            whileTap={{
+              scale: isVisible ? 0.98 : 1,
+              transition: { duration: 0.1 },
+            }}
             transition={{ duration: 0.5 }}
             onClick={() => setCurrentStep(2)}
+            onMouseEnter={() => setIsButtonHovered(true)}
+            onMouseLeave={() => setIsButtonHovered(false)}
           >
+            {/* Hiệu ứng hover nằm đúng trên nút */}
+            <ButtonHoverEffect isHovered={isButtonHovered && isVisible} />
+            {/* Hiệu ứng lướt ánh sáng */}
+            {isButtonHovered && isVisible && (
+              <motion.div
+                className="absolute inset-0 w-1/3 h-full bg-gradient-to-r from-transparent via-white to-transparent z-1"
+                style={{ skewX: '-20deg' }}
+                animate={{ x: ['-100%', '200%'] }}
+                transition={{
+                  repeat: Infinity,
+                  duration: 1.5,
+                  ease: 'easeInOut',
+                }}
+              />
+            )}
+            {/* Sparkles effect when button is visible */}
+            {isVisible && <Sparkles show={true} />}
             Tiếp tục
           </motion.button>
 
