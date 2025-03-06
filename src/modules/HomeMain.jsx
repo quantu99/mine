@@ -10,7 +10,7 @@ import {
 } from '@/components';
 
 export function HomeMain() {
-  const [currentStep, setCurrentStep] = useState(4);
+  const [currentStep, setCurrentStep] = useState(5);
   const [backgroundStyle, setBackgroundStyle] = useState({});
   
   useEffect(() => {
@@ -59,7 +59,7 @@ export function HomeMain() {
         return <WelcomeBack setStep={setCurrentStep} />;
       case 4:
         return <StoryTour setCurrentStep={setCurrentStep} />;
-      case 6:
+      case 5:
         return <OurStory />;
       default:
         return null;

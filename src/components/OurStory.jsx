@@ -3,6 +3,7 @@ import Image from 'next/image';
 import banner from '../assets/image/rose2.jpg';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useEffect, useState, useRef } from 'react';
+import "./OurStory.css";
 
 export function OurStory() {
   const textLines = ['Happy', "Our 1 year love's anniversary and late 8/3"];
@@ -101,7 +102,7 @@ export function OurStory() {
             vy: newVy,
             rotation: img.rotation + 2,
           };
-        })
+        }),
       );
 
       requestAnimationFrame(updateImages);
@@ -133,14 +134,14 @@ export function OurStory() {
     }
   };
   return (
-    <div>
-      {/* <div className="relative w-full md:min-h-[800px] lg:min-h-screen">
+    <div className="w-full h-full bg-black">
+      <div className="relative w-full md:min-h-[800px] lg:min-h-screen">
         <Image
           src={banner}
           className="w-full h-full object-cover brightness-90"
         />
         <motion.div
-          className="font-italia text-[100px] hidden absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 font-bold text-white text-center px-4  md:flex flex-col gap-4"
+          className="font-italia text-[100px] hidden absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 font-bold text-white text-center px-4  md:flex flex-col gap-20"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 1 }}
@@ -185,7 +186,8 @@ export function OurStory() {
             {displayedTexts[1]}
           </motion.span>
         </motion.div>
-      </div> */}
+      </div>
+      <div className='heart-shape' />
     </div>
   );
 }
