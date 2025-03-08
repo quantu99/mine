@@ -11,6 +11,7 @@ import {
   WelcomeBack,
 } from '@/components';
 import { Howl } from 'howler';
+import { FairyTale } from '@/components/FairyTale';
 const sound = new Howl({
   src: ['/music.mp3'],
   loop: true,
@@ -18,10 +19,10 @@ const sound = new Howl({
 });
 
 export function HomeMain() {
-  const [currentStep, setCurrentStep] = useState(1);
+  const [currentStep, setCurrentStep] = useState(5);
   const [backgroundStyle, setBackgroundStyle] = useState({});
   useEffect(() => {
-    if (currentStep === 5) {
+    if (currentStep === 6) {
       sound.play();
     } else {
       sound.stop();
@@ -51,13 +52,6 @@ export function HomeMain() {
       case 4:
         setBackgroundStyle({
           background: 'linear-gradient(135deg, #000000 20%, #ff69b4 80%)',
-        });
-        break;
-      case 5:
-        setBackgroundStyle({
-          background:
-            'radial-gradient(circle at 30% 30%, #ff8dc6 0%, #ff69b4 40%, #ff4da6 80%)',
-          boxShadow: 'inset 0 0 100px rgba(255, 255, 255, 0.3)',
         });
         break;
       default:
@@ -96,6 +90,14 @@ export function HomeMain() {
       case 4:
         return <StoryTour setCurrentStep={setCurrentStep} />;
       case 5:
+        return (
+          <HeartCursorEffect>
+            <RippleEffect>
+              <FairyTale setStep={setCurrentStep} />
+            </RippleEffect>
+          </HeartCursorEffect>
+        );
+      case 6:
         return <OurStory />;
       default:
         return null;
