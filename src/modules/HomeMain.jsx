@@ -8,11 +8,28 @@ import {
   StoryTour,
   WelcomeBack,
 } from '@/components';
+import { Howl } from 'howler';
+const sound = new Howl({
+  src: ['/music.mp3'],
+  loop: true,
+  autoplay: false,
+});
 
 export function HomeMain() {
-  const [currentStep, setCurrentStep] = useState(5);
+
+  const [currentStep, setCurrentStep] = useState(1);
   const [backgroundStyle, setBackgroundStyle] = useState({});
-  
+  useEffect(() => {
+    if (currentStep === 5) {
+      sound.play();
+    } else {
+      sound.stop();
+    }
+    
+    return () => {
+      sound.stop();
+    };
+  }, [currentStep]);
   useEffect(() => {
     switch (currentStep) {
       case 1:

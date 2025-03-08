@@ -9,12 +9,7 @@ import { CountUp } from './CountUp';
 import { Messages } from './Messages';
 import { LoveLetter } from './LoveLetter';
 import { PaulyTalk } from './PaulyTalk';
-import { Howl } from 'howler';
-const sound = new Howl({
-  src: ['/music.mp3'],
-  loop: true,
-  autoplay: true,
-});
+
 
 export function OurStory() {
   const textLines = ['Happy', "Our 1 year love's anniversary and late 8/3"];
@@ -22,12 +17,7 @@ export function OurStory() {
   const [index, setIndex] = useState(0);
   const [line, setLine] = useState(0);
   const [raindrops, setRaindrops] = useState([]);
-  useEffect(() => {
-    sound.play();
-    return () => {
-        sound.stop();
-    };
-}, []);
+
   // Tạo mưa
   useEffect(() => {
     // Tạo các giọt mưa ban đầu
