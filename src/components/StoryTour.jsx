@@ -9,8 +9,9 @@ import sun from '../assets/image/sun.png';
 import star from '../assets/image/stars.png';
 import princess from '../assets/image/princess.png';
 import heart from '../assets/image/heart.png';
+import flowerImage from '../assets/image/flowers.png';
 
-// Tách component FallingHearts để tránh re-render
+// Component trái tim rơi tách biệt để tránh re-render
 const FallingHearts = () => {
   return (
     <div className="absolute w-full inset-0 overflow-hidden pointer-events-none">
@@ -39,6 +40,64 @@ const FallingHearts = () => {
         >
           ❤️
         </motion.div>
+      ))}
+    </div>
+  );
+};
+
+// Enhanced Button Hover Effect Component
+const ButtonHoverEffect = ({ isHovered }) => {
+  if (!isHovered) return null;
+
+  return (
+    <motion.div
+      className="absolute inset-0 bg-gradient-to-r from-purple-200 via-purple-400 to-purple-300 z-0"
+      animate={{
+        opacity: [0.5, 0.8, 0.5],
+        backgroundPosition: ['0% 50%', '100% 50%', '0% 50%'],
+      }}
+      transition={{
+        duration: 2,
+        repeat: Infinity,
+        ease: 'easeInOut',
+      }}
+    />
+  );
+};
+
+// Sparkle Animation Component
+const Sparkles = ({ show }) => {
+  if (!show) return null;
+
+  return (
+    <div className="absolute inset-0 overflow-hidden pointer-events-none">
+      {[...Array(15)].map((_, i) => (
+        <motion.div
+          key={`sparkle-${i}`}
+          className="absolute rounded-full bg-white"
+          style={{
+            width: `${2 + Math.random() * 4}px`,
+            height: `${2 + Math.random() * 4}px`,
+            left: `${Math.random() * 100}%`,
+            top: `${Math.random() * 100}%`,
+          }}
+          initial={{ opacity: 0, scale: 0 }}
+          animate={{
+            opacity: [0, 1, 0],
+            scale: [0, 1, 0],
+            boxShadow: [
+              '0 0 0 rgba(255, 255, 255, 0)',
+              '0 0 8px rgba(255, 255, 255, 0.8)',
+              '0 0 0 rgba(255, 255, 255, 0)',
+            ],
+          }}
+          transition={{
+            duration: 1 + Math.random(),
+            repeat: Infinity,
+            delay: Math.random() * 2,
+            repeatDelay: Math.random() * 3,
+          }}
+        />
       ))}
     </div>
   );
@@ -123,6 +182,8 @@ export function StoryTour({setCurrentStep}) {
   const [showChatBubbles, setShowChatBubbles] = useState(false);
   const [starsOpacity, setStarsOpacity] = useState(1); // Separate state for stars opacity
   const [floatingHearts, setFloatingHearts] = useState([]);
+  const [isButtonHovered, setIsButtonHovered] = useState(false);
+  const [isContinueButtonHovered, setIsContinueButtonHovered] = useState(false);
   
   // Responsive states
   const [isPortrait, setIsPortrait] = useState(false);
@@ -466,17 +527,16 @@ export function StoryTour({setCurrentStep}) {
 
       {/* Ground/Grass */}
       <div className="w-full flex absolute bottom-0">
-        {' '}
         <Image
           src={grass}
           alt="grass"
           className="w-1/2 h-1/3 object-cover"
-        />{' '}
+        />
         <Image
           src={grass}
           alt="grass"
           className="w-1/2 h-1/3 object-cover"
-        />{' '}
+        />
       </div>
 
       {/* Floating hearts animation */}
@@ -530,7 +590,6 @@ export function StoryTour({setCurrentStep}) {
         className="absolute right-0 md:right-[500px] bottom-32 transition-opacity duration-1000"
         style={{ 
           opacity: princessOpacity,
-          right: isMobile ? `${gameContainerRef.current?.clientWidth * 0.7}px` : '500px'
         }}
         animate={{
           y: [0, -5, 0], // Same bouncing animation as character
@@ -649,17 +708,61 @@ export function StoryTour({setCurrentStep}) {
         </motion.div>
       )}
 
-      {/* Message overlay */}
+      {/* Message overlay - Styled like the Login input */}
       {showMessage && (
         <div className="absolute inset-0 bg-black bg-opacity-70 flex items-center justify-center p-4 z-50">
-          <div className="bg-white rounded-lg p-6 max-w-md">
-            <p className="text-lg mb-4">{currentMessage}</p>
-            <button
-              className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+          <div className="bg-transparent rounded-lg p-6 max-w-md">
+            {/* Message box with falling hearts - similar to Login input */}
+            <div className="relative rounded-[50px] overflow-hidden mb-6">
+              {/* Background gradient */}
+              <div className="absolute inset-0 bg-gradient-to-b from-pink-200 to-pink-500 opacity-90"></div>
+              
+              {/* Falling hearts effect */}
+              <FallingHearts />
+              
+              {/* Message text */}
+              <div className="relative z-10 p-4 text-white font-love text-[24px] text-center w-full max-w-md">
+                {currentMessage}
+              </div>
+            </div>
+            
+            {/* Continue button styled like Login button */}
+            <motion.button
+              className="relative bg-pink-500 text-white px-4 py-2 rounded-lg w-full z-10 overflow-hidden"
               onClick={handleContinue}
+              whileHover={{
+                scale: 1.02,
+                transition: { duration: 0.2 },
+              }}
+              whileTap={{
+                scale: 0.98,
+                transition: { duration: 0.1 },
+              }}
+              onMouseEnter={() => setIsContinueButtonHovered(true)}
+              onMouseLeave={() => setIsContinueButtonHovered(false)}
             >
-              Continue
-            </button>
+              {/* Button hover effect */}
+              <ButtonHoverEffect isHovered={isContinueButtonHovered} />
+              
+              {/* Hiệu ứng lướt ánh sáng */}
+              {isContinueButtonHovered && (
+                <motion.div
+                  className="absolute inset-0 w-1/3 h-full bg-gradient-to-r from-transparent via-white to-transparent z-1"
+                  style={{ skewX: '-20deg' }}
+                  animate={{ x: ['-100%', '200%'] }}
+                  transition={{
+                    repeat: Infinity,
+                    duration: 1.5,
+                    ease: 'easeInOut',
+                  }}
+                />
+              )}
+              
+              {/* Sparkles effect */}
+              <Sparkles show={true} />
+              
+              Tiếp tục
+            </motion.button>
           </div>
         </div>
       )}
@@ -674,6 +777,7 @@ export function StoryTour({setCurrentStep}) {
         />
         <span className="ml-2 font-bold">{heartsCollected}/3</span>
       </div>
+      {/* continue */}
       
       {/* Next step button - Only shown after chat bubbles appear */}
       {showChatBubbles && (
@@ -682,7 +786,7 @@ export function StoryTour({setCurrentStep}) {
             className="bg-pink-500 text-white px-4 py-2 rounded-lg shadow-md hover:bg-pink-600 transition-colors flex items-center"
             onClick={handleNextStep}
           >
-            <span>Next Step</span>
+            <span>Tiếp tục</span>
             <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 ml-2" viewBox="0 0 20 20" fill="currentColor">
               <path fillRule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clipRule="evenodd" />
             </svg>
@@ -692,7 +796,7 @@ export function StoryTour({setCurrentStep}) {
 
       {/* Controls hint - desktop only */}
       <div className="absolute bottom-4 left-4 bg-white bg-opacity-80 p-2 rounded-lg text-sm hidden md:block">
-        Use arrow keys to move ← → and jump ↑
+        Sử dụng các phím mũi tên để di chuyển ← → và nhảy ↑
       </div>
 
       {/* Mobile touch controls */}

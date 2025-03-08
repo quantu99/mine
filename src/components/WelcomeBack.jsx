@@ -432,7 +432,7 @@ const DreamBubble = () => {
         />
 
         <motion.span
-          className="text-pink-500 font-bold text-base sm:text-lg relative z-10"
+          className="text-pink-500 text-[30px] relative z-10"
           animate={{
             scale: [1, 1.05, 1],
             color: [
@@ -545,9 +545,9 @@ export function WelcomeBack({ setStep }) {
   };
 
   return (
-    <div className="relative font-love w-full md:min-w-[850px] px-4 md:px-8 my-4 md:my-8 mx-auto">
+    <div className="relative font-love h-screen flex items-center justify-center w-full  px-4 md:px-8 mx-auto">
       {/* Mobile layout - stacked */}
-      <div className="flex flex-col md:flex-row-reverse h-screen justify-center md:justify-between items-center md:items-start gap-4">
+      <div className="flex flex-col md:flex-row-reverse justify-center md:justify-between md:min-w-[850px] items-center md:items-start gap-4">
         {/* Character section */}
         <div className="relative rounded-[50%] w-[150px] h-[150px] md:w-[200px] md:h-[200px] border border-dashed border-slate-400 z-20">
           <div className="flex-shrink-0 z-20 w-36 md:w-48 absolute -top-8 md:-top-10 left-1/2 -translate-x-1/2 md:left-0 md:translate-x-0">
@@ -602,7 +602,7 @@ export function WelcomeBack({ setStep }) {
           <div className="mt-4">
             {currentStep === 'initial' && (
               <div className="space-y-2">
-                <p className="text-gray-600 font-medium mb-2 text-sm md:text-base">
+                <p className="text-white font-medium mb-2 text-[20px] md:text-[24px]">
                   Trò chuyện:
                 </p>
                 {['introduction', 'whoAreYou'].map((option, index) => {
@@ -628,7 +628,7 @@ export function WelcomeBack({ setStep }) {
                       {/* Sparkling effect */}
                       {isHovered && <Sparkles show={true} />}
 
-                      <span className="relative z-10">{optionText}</span>
+                      <span className="relative text-[20px] md:text-[24px] z-10">{optionText}</span>
                     </motion.button>
                   );
                 })}

@@ -59,7 +59,7 @@ export function HomeMain() {
         return <WelcomeBack setStep={setCurrentStep} />;
       case 4:
         return <StoryTour setCurrentStep={setCurrentStep} />;
-      case 6:
+      case 5:
         return <OurStory />;
       default:
         return null;

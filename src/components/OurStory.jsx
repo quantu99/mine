@@ -3,17 +3,13 @@ import Image from 'next/image';
 import banner from '../assets/image/rose2.jpg';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useEffect, useState, useRef } from 'react';
+import { CountUp } from './CountUp';
 
 export function OurStory() {
   const textLines = ['Happy', "Our 1 year love's anniversary and late 8/3"];
   const [displayedTexts, setDisplayedTexts] = useState(['', '']);
   const [index, setIndex] = useState(0);
   const [line, setLine] = useState(0);
-
-  // Gallery states
-  const [flyingImages, setFlyingImages] = useState([]);
-  const [selectedMedia, setSelectedMedia] = useState(null);
-  const containerRef = useRef(null);
 
   // Typing effect
   useEffect(() => {
@@ -45,98 +41,13 @@ export function OurStory() {
 
     return () => clearTimeout(typingInterval);
   }, [index, line]);
-
-  // Generate flying images with bounce behavior
-  useEffect(() => {
-    if (!containerRef.current) return;
-
-    const containerRect = containerRef.current.getBoundingClientRect();
-
-    const initialImages = galleryImages.map((img) => {
-      const startX = Math.random() * (containerRect.width - 100);
-      const startY = Math.random() * (containerRect.height - 100);
-
-      return {
-        ...img,
-        x: startX,
-        y: startY,
-        vx: Math.random() * 4 - 2, // Random horizontal velocity
-        vy: Math.random() * 4 - 2, // Random vertical velocity
-        rotation: Math.random() * 360,
-        scale: 0.5 + Math.random() * 0.5,
-      };
-    });
-
-    setFlyingImages(initialImages);
-  }, []);
-
-  // Animate flying images with bounce
-  useEffect(() => {
-    if (!containerRef.current) return;
-
-    const containerRect = containerRef.current.getBoundingClientRect();
-    const imageSize = 100;
-
-    const animationFrame = requestAnimationFrame(function updateImages() {
-      setFlyingImages((prevImages) =>
-        prevImages.map((img) => {
-          let newX = img.x + img.vx;
-          let newY = img.y + img.vy;
-          let newVx = img.vx;
-          let newVy = img.vy;
-
-          // Bounce off container edges
-          if (newX <= 0 || newX >= containerRect.width - imageSize) {
-            newVx = -newVx * 0.9; // Reverse and slightly reduce velocity
-          }
-          if (newY <= 0 || newY >= containerRect.height - imageSize) {
-            newVy = -newVy * 0.9; // Reverse and slightly reduce velocity
-          }
-
-          return {
-            ...img,
-            x: Math.max(0, Math.min(newX, containerRect.width - imageSize)),
-            y: Math.max(0, Math.min(newY, containerRect.height - imageSize)),
-            vx: newVx,
-            vy: newVy,
-            rotation: img.rotation + 2,
-          };
-        })
-      );
-
-      requestAnimationFrame(updateImages);
-    });
-
-    return () => cancelAnimationFrame(animationFrame);
-  }, []);
-
-  // Image click handler
-  const handleImageClick = (media) => {
-    setSelectedMedia(media);
-  };
-
-  // Close popup
-  const handleClosePopup = (e) => {
-    // Prevent event from propagating
-    e.stopPropagation();
-    setSelectedMedia(null);
-  };
-
-  // Download handler
-  const handleDownload = (e) => {
-    e.stopPropagation();
-    if (selectedMedia) {
-      const link = document.createElement('a');
-      link.href = selectedMedia.src;
-      link.download = `image_${selectedMedia.id}.jpg`;
-      link.click();
-    }
-  };
+  
   return (
     <div>
-      {/* <div className="relative w-full md:min-h-[800px] lg:min-h-screen">
+      <div className="relative w-full md:min-h-[800px] lg:min-h-screen">
         <Image
           src={banner}
+          alt='banner'
           className="w-full h-full object-cover brightness-90"
         />
         <motion.div
@@ -185,7 +96,8 @@ export function OurStory() {
             {displayedTexts[1]}
           </motion.span>
         </motion.div>
-      </div> */}
+      </div>
+      <CountUp />
     </div>
   );
 }
