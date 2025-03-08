@@ -4,6 +4,7 @@ import banner from '../assets/image/rose2.jpg';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useEffect, useState, useRef } from 'react';
 import { CountUp } from './CountUp';
+import { Messages } from './Messages';
 
 export function OurStory() {
   const textLines = ['Happy', "Our 1 year love's anniversary and late 8/3"];
@@ -98,6 +99,7 @@ export function OurStory() {
         </motion.div>
       </div>
       <CountUp />
+      <Messages />
     </div>
   );
 }

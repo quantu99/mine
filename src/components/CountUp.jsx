@@ -11,16 +11,10 @@ import {
 
 export function CountUp() {
   const containerRef = useRef(null);
-  const contentRef = useRef(null);
   const isInView = useInView(containerRef, { amount: 0.3 });
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ['start end', 'end start'],
-  });
-
-  // Transform for parallax effect - applied to content instead of background
-  const contentY = useTransform(scrollYProgress, [0, 1], ['0%', '30%']);
-
+  
+  // Removed the scrollYProgress and contentY transform variables
+  
   const items = [
     { value: 1, label: 'năm' },
     { value: 12, label: 'tháng' },
@@ -46,11 +40,9 @@ export function CountUp() {
         />
       </div>
 
-      {/* Parallax content container */}
-      <motion.div
+      {/* Content container - no parallax effect */}
+      <div
         className="relative z-10 py-16 md:py-24"
-        style={{ y: contentY }}
-        ref={contentRef}
       >
         <div className="container mx-auto px-4">
           <h2 className="font-italia text-4xl md:text-5xl lg:text-6xl text-white text-center mb-10">
@@ -69,7 +61,7 @@ export function CountUp() {
             ))}
           </div>
         </div>
-      </motion.div>
+      </div>
     </div>
   );
 }
