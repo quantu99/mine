@@ -188,7 +188,7 @@ export const RippleEffect = ({ children }) => {
       onClick={handleClick}
       onTouchStart={handleClick}
     >
-      <div className="absolute  inset-0 flex text-gray-500 text-lg">
+      <div className="absolute  inset-0 flex text-gray-500 text-lg justify-center">
         {children}
       </div>
 

@@ -2,9 +2,11 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
+  HeartCursorEffect,
   Login,
   MultipleChoice,
   OurStory,
+  RippleEffect,
   StoryTour,
   WelcomeBack,
 } from '@/components';
@@ -16,7 +18,6 @@ const sound = new Howl({
 });
 
 export function HomeMain() {
-
   const [currentStep, setCurrentStep] = useState(1);
   const [backgroundStyle, setBackgroundStyle] = useState({});
   useEffect(() => {
@@ -25,7 +26,7 @@ export function HomeMain() {
     } else {
       sound.stop();
     }
-    
+
     return () => {
       sound.stop();
     };
@@ -69,11 +70,29 @@ export function HomeMain() {
   const renderContent = () => {
     switch (currentStep) {
       case 1:
-        return <Login setCurrentStep={setCurrentStep} />;
+        return (
+          <HeartCursorEffect>
+            <RippleEffect>
+              <Login setCurrentStep={setCurrentStep} />
+            </RippleEffect>
+          </HeartCursorEffect>
+        );
       case 2:
-        return <MultipleChoice setCurrentStep={setCurrentStep} />;
+        return (
+          <HeartCursorEffect>
+            <RippleEffect>
+              <MultipleChoice setCurrentStep={setCurrentStep} />
+            </RippleEffect>
+          </HeartCursorEffect>
+        );
       case 3:
-        return <WelcomeBack setStep={setCurrentStep} />;
+        return (
+          <HeartCursorEffect>
+            <RippleEffect>
+              <WelcomeBack setStep={setCurrentStep} />
+            </RippleEffect>
+          </HeartCursorEffect>
+        );
       case 4:
         return <StoryTour setCurrentStep={setCurrentStep} />;
       case 5:
@@ -103,7 +122,7 @@ export function HomeMain() {
               className={`w-full h-full absolute top-0 left-0`}
             />
           </AnimatePresence>
-          
+
           {/* Content layer */}
           <AnimatePresence mode="wait">
             <motion.div
