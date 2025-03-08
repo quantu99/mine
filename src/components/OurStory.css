@@ -1,0 +1,18 @@
+.heart-shape {
+  position: relative;
+  height: 160px;
+  width: 100px;
+  background: #d16ba5;
+  transform: rotate(45deg);
+  border-radius: 200px 200px 0px 0px;
+}
+.heart-shape::before {
+  content: '';
+  position: absolute;
+  background: #d16ba5;
+  height: 160px;
+  width: 100px;
+  transform: rotate(-90deg);
+  border-radius: 200px 200px 0px 0px;
+  left: 30px;
+}

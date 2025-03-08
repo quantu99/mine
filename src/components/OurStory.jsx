@@ -51,7 +51,7 @@ export function OurStory() {
           className="w-full h-full object-cover brightness-90"
         />
         <motion.div
-          className="font-italia text-[100px] hidden absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 font-bold text-white text-center px-4  md:flex flex-col gap-4"
+          className="font-italia text-[100px] hidden absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 font-bold text-white text-center px-4  md:flex flex-col gap-20"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 1 }}

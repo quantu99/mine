@@ -10,7 +10,7 @@ import {
 } from '@/components';
 
 export function HomeMain() {
-  const [currentStep, setCurrentStep] = useState(4);
+  const [currentStep, setCurrentStep] = useState(5);
   const [backgroundStyle, setBackgroundStyle] = useState({});
   
   useEffect(() => {
