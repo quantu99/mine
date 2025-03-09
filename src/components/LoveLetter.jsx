@@ -12,15 +12,11 @@ export function LoveLetter() {
   
   // Letter content - each line will be typed out completely before moving to the next
   const letterContent = [
-    "Em yêu dấu,",
+    "Dear Daisie đáng yêu của anh,",
     "",
-    "Anh viết những dòng này khi trời đã về khuya, khi những vì sao lấp lánh trên bầu trời như ánh mắt em ngày đầu ta gặp nhau.",
+    "Anh viết những dòng này khi trời đã về khuya, khi mà những kỷ niệm hồi ức trong suốt khoảng thời gian qua ùa về.",
     "",
-    "Đã một năm, mười hai tháng, năm mươi hai tuần, ba trăm sáu mươi sáu ngày kể từ khi chúng ta tìm thấy nhau. Mỗi khoảnh khắc bên em đều là điều quý giá nhất trong cuộc đời anh.",
-    "",
-    "Em có biết không, mỗi sáng thức dậy, điều đầu tiên anh nghĩ đến là nụ cười của em. Mỗi đêm trước khi ngủ, hình ảnh cuối cùng trong tâm trí anh vẫn là em.",
-    "",
-    "Tình yêu của chúng ta như một cây non đã vững chắc bén rễ, và anh mong được tiếp tục vun đắp, chăm sóc để cây tình yêu ấy mãi xanh tươi, đơm hoa kết trái.",
+    "Đã một năm trôi qua, một cuộc hành trình không quá dài cũng không quá ngắn. Đủ để anh hiểu được cảm giác yêu thương một người thật lòng là như thế nào. Và đủ để anh hiểu cảm giác được một người yêu thương là ra sao.",
     "",
     "Cảm ơn em vì đã là người đồng hành tuyệt vời nhất. Cảm ơn vì những giây phút hạnh phúc, và cả những lúc khó khăn ta cùng vượt qua.",
     "",

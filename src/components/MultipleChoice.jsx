@@ -264,9 +264,9 @@ export function MultipleChoice({ setCurrentStep }) {
       options: ['09/03', '25/09', '29/09', '20/10', 'Đáp án khác'],
       correctAnswer: 'Đáp án khác',
       correctFeedback:
-        'Đúng rồi, ngày đặc biệt nhất của anh là ngày anh gặp em!',
+        'Đúng rồi, ngày đặc biệt nhất của anh tất cả mọi ngày trên!',
       incorrectFeedback:
-        'Sai rồi, ngày đặc biệt nhất không phải là một ngày cụ thể trong năm...',
+        'Sai rồiiiiiiii ><',
     },
     {
       id: 2,
@@ -279,7 +279,7 @@ export function MultipleChoice({ setCurrentStep }) {
       ],
       correctAnswer: 'Our first anniversary',
       correctFeedback:
-        'Đúng rồi, hôm nay là kỷ niệm 1 năm chúng mình ở bên nhau!',
+        'Đúng rồi, hôm nay là kỷ niệm 1 năm chúng mình ở bên nhau và là ngày 8/3 muộn!',
       incorrectFeedback:
         'Sai rồi, hôm nay là một ngày rất đặc biệt đối với chúng mình...',
     },
@@ -289,9 +289,9 @@ export function MultipleChoice({ setCurrentStep }) {
       options: ['364', '365', '366', '367'],
       correctAnswer: '366',
       correctFeedback:
-        'Đúng rồi, đã 366 ngày chúng mình bên nhau, hạnh phúc từng ngày!',
+        'Đúng rồi, đã 366 ngày chúng mình bên nhau rồi nè!',
       incorrectFeedback:
-        'Sai rồi, năm nay là năm nhuận nên có 366 ngày đó em...',
+        'Sai rồiiiiii, năm 2024 là năm nhuận đó!',
     },
     {
       id: 4,
@@ -305,11 +305,11 @@ export function MultipleChoice({ setCurrentStep }) {
     },
     {
       id: 5,
-      question: 'Em thích cách anh gọi em như thế nào nhất!',
+      question: 'Em nghĩ anh thích gọi em như thế nào nhất!',
       options: ['Bé cưng', 'Em bé', 'Baby', 'Bé Trân', 'Đáp án khác'],
       correctAnswer: 'Đáp án khác',
       correctFeedback:
-        'Đúng rồi, em thích tất cả những cách anh gọi em, miễn là anh gọi với tình yêu!',
+        'Đúng rồi, Anh thích tất cả những cách mà anh gọi trên luôn!',
       incorrectFeedback: 'Sai rồi, không phải chỉ một cách gọi cụ thể đâu...',
     },
   ];
@@ -401,7 +401,7 @@ export function MultipleChoice({ setCurrentStep }) {
               : 'bg-red-100 text-red-800 border border-red-400'
           }`}
         >
-          <p className="text-lg font-medium">{feedbackMessage.text}</p>
+          <p className="text-[24px] font-medium">{feedbackMessage.text}</p>
 
           {/* Add sparkles effect for correct answers */}
           {feedbackMessage.isCorrect && <Sparkles show={true} />}
