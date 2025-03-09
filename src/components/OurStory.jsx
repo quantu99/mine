@@ -10,7 +10,6 @@ import { Messages } from './Messages';
 import { LoveLetter } from './LoveLetter';
 import { PaulyTalk } from './PaulyTalk';
 
-
 export function OurStory() {
   const textLines = ['Happy', "Our 1 year love's anniversary and late 8/3"];
   const [displayedTexts, setDisplayedTexts] = useState(['', '']);
@@ -198,8 +197,38 @@ export function OurStory() {
       <PaulyTalk content="Xin chào Daisy, lại là anh- Pauly đây! Lời đầu tiên, anh chúc Công chúa có sẽ có một ngày Kỷ niệm và 8/3 thật vui vẻ và đáng nhớ. Còn bây giờ thì hãy tiếp tục khám phá cuộc hành trình này nhé!" />
       <CountUp />
       <Messages />
+      <Story />
       <LoveLetter />
-      <PaulyTalk content='Chúc mừng em, đến đây là điểm dừng "tạm thời" của chuyến đi kì diệu lần này, anh hi vọng em sẽ thích món quà nhỏ này và sẽ cười thật nhiều khi nghĩ về nó. Và hãy trông chờ vào chuyến đi lần sau, vì sẽ là một chuyến đi xịn xò hơn nữa. Anh yêu em' />
+      <PaulyTalk content='Chúc mừng em, đến đây là điểm dừng "tạm thời" của chuyến đi kì diệu lần này, anh hi vọng em sẽ thích món quà nhỏ này và sẽ cười thật nhiều khi nghĩ về nó. Và hãy trông chờ vào chuyến đi lần sau, vì sẽ là một chuyến đi xịn xò hơn nữa. Anh yêu em ♥' />
     </div>
   );
 }
+const Story = () => {
+  return (
+    <div className="h-screen flex flex-col items-center justify-center p-4 bg-black">
+      <motion.h1
+        className="text-[30px] md:text-[50px] font-bold font-love text-white"
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+      >
+        Hành trình của chúng ta 
+      </motion.h1>
+      <motion.div
+        className="w-full max-w-4xl rounded-lg overflow-hidden shadow-2xl"
+        initial={{ opacity: 0, scale: 0.9 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ duration: 0.5, delay: 0.2 }}
+      >
+        <video
+          className="w-full h-auto"
+          controls
+          autoPlay
+          src="/story.mp4"
+        >
+          Your browser does not support the video tag.
+        </video>
+      </motion.div>
+    </div>
+  );
+};
