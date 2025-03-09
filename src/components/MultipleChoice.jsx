@@ -277,7 +277,7 @@ export function MultipleChoice({ setCurrentStep }) {
         'Một buổi đi chơi như thường lệ',
         'Ăn mừng kỉ niệm lần đầu tiên đi chơi cùng nhau',
       ],
-      correctAnswer: 'Our first anniversary',
+      correctAnswer: 'Our 1 year we loved anniversary',
       correctFeedback:
         'Đúng rồi, hôm nay là kỷ niệm 1 năm chúng mình ở bên nhau và là ngày 8/3 muộn!',
       incorrectFeedback:
