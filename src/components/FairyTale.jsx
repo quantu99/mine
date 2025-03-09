@@ -465,7 +465,7 @@ export function FairyTale({ setStep }) {
   const messages = {
     initial: '...',
     fairyTaleIntro:
-      'Em muốn nghe một câu chuyện cổ tích về Daisy không? Anh đã chuẩn bị câu chuyện đặc biệt này rất lâu rồi...',
+      'Lại đây và anh sẽ kể em nghe một câu chuyện, câu chuyện cổ tích về loài hoa Cúc họa mi, hay còn được biết đến với cái tên là Daisy! Anh đã chuẩn bị câu chuyện đặc biệt này rất lâu rồi...',
   };
 
   // Check if device is mobile
@@ -541,7 +541,7 @@ export function FairyTale({ setStep }) {
     return (
       <div className="h-screen flex flex-col items-center justify-center p-4 bg-black">
         <motion.h1
-          className="text-2xl md:text-4xl font-bold text-white mb-6"
+          className="text-[30px] md:text-[50px] font-bold font-love text-white mb-6"
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
@@ -585,7 +585,7 @@ export function FairyTale({ setStep }) {
             {/* Sparkling effect */}
             {hoveredOption === 'continue' && <Sparkles show={true} />}
 
-            <span className="relative text-[20px] md:text-[24px] z-10">
+            <span className="relative text-[24px] font-love md:text-[28px] z-10">
               Tiếp tục
             </span>
           </motion.button>
@@ -650,7 +650,7 @@ export function FairyTale({ setStep }) {
           {/* Option buttons */}
           {!isTyping && (
             <div className="mt-4 space-y-2">
-              <p className="text-white font-medium mb-2 text-[20px] md:text-[24px]">
+              <p className="text-white font-medium mb-2 text-[24px] md:text-[28px]">
                 Lựa chọn:
               </p>
               {[
@@ -677,7 +677,7 @@ export function FairyTale({ setStep }) {
                     {/* Sparkling effect */}
                     {isHovered && <Sparkles show={true} />}
 
-                    <span className="relative text-[20px] md:text-[24px] z-10">
+                    <span className="relative text-[24px] md:text-[28px] z-10">
                       {option.text}
                     </span>
                   </motion.button>

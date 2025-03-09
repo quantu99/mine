@@ -195,9 +195,9 @@ export function StoryTour({setCurrentStep}) {
 
   // Messages for each heart
   const heartMessages = [
-    'You found the first heart! Keep exploring to find more.',
-    'Second heart collected! Just one more to find.',
-    "Great job! You've found all the hearts. The princess will appear as day comes!",
+    'Từ những cuộc trò chuyện ban đầu, anh thấy em là một cô gái vô cùng đặc biệt, đặc biệt nhất là ở chỗ có thể ôm trọn nỗi đau vào lòng một mình và chỉ thể hiện sự vui vẻ đó ra bên ngoài. Và trùng hợp thay, anh cũng là một người như thế, vậy nên anh hiểu rõ điều đó khó khăn và đau khổ đến như thế nào...',
+    'Anh muốn là người có thể ở bên và chia sẻ tất cả những điều đó với em, từ niềm vui cho đến nỗi buồn...',
+    "Anh yêu em nhiều lắm, Trần Huyền Trân!",
   ];
 
   // Detect device orientation and type
@@ -780,13 +780,14 @@ export function StoryTour({setCurrentStep}) {
       {/* continue */}
       
       {/* Next step button - Only shown after chat bubbles appear */}
+      
       {showChatBubbles && (
         <div className="absolute bottom-4 right-4">
           <button 
             className="bg-pink-500 text-white px-4 py-2 rounded-lg shadow-md hover:bg-pink-600 transition-colors flex items-center"
             onClick={handleNextStep}
           >
-            <span>Tiếp tục</span>
+            <span className='text-[24px] font-love md:text-[28px]'>Tiếp tục</span>
             <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 ml-2" viewBox="0 0 20 20" fill="currentColor">
               <path fillRule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clipRule="evenodd" />
             </svg>
