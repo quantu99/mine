@@ -266,7 +266,9 @@ export function Login({ setCurrentStep }) {
         username === 'Em bé' ||
         username === 'Em yêu' ||
         username === 'Cục cưng' ||
-        username === 'Em bé đáng yêu',
+        username === 'Em bé đáng yêu' ||
+        username === 'Bé cưng' ||
+        username === 'Cục dàng',
     );
   }, [username]);
 
@@ -329,7 +331,9 @@ export function Login({ setCurrentStep }) {
             )}
             {/* Sparkles effect when button is visible */}
             {isVisible && <Sparkles show={true} />}
-            <span className='font-love md:text-[28px] text-[24px]'>Tiếp tục</span>
+            <span className="font-love md:text-[28px] text-[24px]">
+              Tiếp tục
+            </span>
           </motion.button>
 
           {/* Hoa bên trái */}

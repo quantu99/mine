@@ -273,7 +273,7 @@ export function MultipleChoice({ setCurrentStep }) {
       question: 'Hôm nay là ngày gì ấy nhỉ?',
       options: [
         '8/3 muộn',
-        'Our first anniversary',
+        'Our 1 year we loved anniversary',
         'Một buổi đi chơi như thường lệ',
         'Ăn mừng kỉ niệm lần đầu tiên đi chơi cùng nhau',
       ],
