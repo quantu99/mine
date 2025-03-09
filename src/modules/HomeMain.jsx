@@ -19,7 +19,7 @@ const sound = new Howl({
 });
 
 export function HomeMain() {
-  const [currentStep, setCurrentStep] = useState(4);
+  const [currentStep, setCurrentStep] = useState(1);
   const [backgroundStyle, setBackgroundStyle] = useState({});
   useEffect(() => {
     if (currentStep === 6) {

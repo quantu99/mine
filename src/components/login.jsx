@@ -264,7 +264,9 @@ export function Login({ setCurrentStep }) {
         username === 'Công chúa nhỏ' ||
         username === 'Daisie' ||
         username === 'Em bé' ||
-        username === 'Em yêu'
+        username === 'Em yêu' ||
+        username === 'Cục cưng' ||
+        username === 'Em bé đáng yêu',
     );
   }, [username]);
 
@@ -315,7 +317,7 @@ export function Login({ setCurrentStep }) {
             {/* Hiệu ứng lướt ánh sáng */}
             {isButtonHovered && isVisible && (
               <motion.div
-                className="absolute inset-0 w-1/3 h-full bg-gradient-to-r from-transparent via-white to-transparent z-1"
+                className="absolute inset-0 w-1/3 font-love md:text-[28px] text-[24px] h-full bg-gradient-to-r from-transparent via-white to-transparent z-1"
                 style={{ skewX: '-20deg' }}
                 animate={{ x: ['-100%', '200%'] }}
                 transition={{
@@ -327,7 +329,7 @@ export function Login({ setCurrentStep }) {
             )}
             {/* Sparkles effect when button is visible */}
             {isVisible && <Sparkles show={true} />}
-            Tiếp tục
+            <span className='font-love md:text-[28px] text-[24px]'>Tiếp tục</span>
           </motion.button>
 
           {/* Hoa bên trái */}
