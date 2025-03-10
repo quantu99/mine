@@ -94,14 +94,17 @@ export function Messages() {
     }
   ];
 
-  // Handle wheel events to control scrolling
+  // Handle all navigation events (wheel and touch) to control scrolling
   useEffect(() => {
     const container = containerRef.current;
     if (!container) return;
 
     let lastScrollTime = 0;
     const scrollThreshold = 500; // ms between scroll events
+    let touchStartY = 0;
+    let touchStartX = 0;
 
+    // Wheel event handler for desktop
     const handleWheel = (e) => {
       const currentTime = new Date().getTime();
       
@@ -120,12 +123,102 @@ export function Messages() {
       e.preventDefault();
     };
 
+    // Touch event handlers for mobile
+    const handleTouchStart = (e) => {
+      touchStartY = e.touches[0].clientY;
+      touchStartX = e.touches[0].clientX;
+    };
+
+    const handleTouchMove = (e) => {
+      // Prevent default to stop page scrolling
+      e.preventDefault();
+    };
+
+    const handleTouchEnd = (e) => {
+      const currentTime = new Date().getTime();
+      const touchEndY = e.changedTouches[0].clientY;
+      const touchEndX = e.changedTouches[0].clientX;
+      
+      // Calculate touch differences in both directions
+      const touchDiffY = touchStartY - touchEndY;
+      const touchDiffX = touchStartX - touchEndX;
+      
+      // Check if vertical swipe is stronger than horizontal
+      const isVerticalSwipe = Math.abs(touchDiffY) > Math.abs(touchDiffX);
+      
+      if (currentTime - lastScrollTime > scrollThreshold) {
+        // Process vertical swipes with a minimum threshold (50px)
+        if (isVerticalSwipe) {
+          if (touchDiffY > 50 && activeIndex < IMAGE_ARR.length - 1) {
+            // Swipe up - go to next slide
+            setActiveIndex(prev => prev + 1);
+            lastScrollTime = currentTime;
+          } else if (touchDiffY < -50 && activeIndex > 0) {
+            // Swipe down - go to previous slide
+            setActiveIndex(prev => prev - 1);
+            lastScrollTime = currentTime;
+          }
+        } else {
+          // Process horizontal swipes with a minimum threshold (50px)
+          if (touchDiffX > 50 && activeIndex < IMAGE_ARR.length - 1) {
+            // Swipe left - go to next slide
+            setActiveIndex(prev => prev + 1);
+            lastScrollTime = currentTime;
+          } else if (touchDiffX < -50 && activeIndex > 0) {
+            // Swipe right - go to previous slide
+            setActiveIndex(prev => prev - 1);
+            lastScrollTime = currentTime;
+          }
+        }
+      }
+    };
+
+    // Add navigation with keyboard arrows as well
+    const handleKeyDown = (e) => {
+      const currentTime = new Date().getTime();
+      
+      if (currentTime - lastScrollTime > scrollThreshold) {
+        if ((e.key === 'ArrowDown' || e.key === 'ArrowRight') && 
+            activeIndex < IMAGE_ARR.length - 1) {
+          setActiveIndex(prev => prev + 1);
+          lastScrollTime = currentTime;
+        } else if ((e.key === 'ArrowUp' || e.key === 'ArrowLeft') && 
+                  activeIndex > 0) {
+          setActiveIndex(prev => prev - 1);
+          lastScrollTime = currentTime;
+        }
+      }
+    };
+
+    // Add event listeners
     container.addEventListener('wheel', handleWheel, { passive: false });
+    container.addEventListener('touchstart', handleTouchStart, { passive: true });
+    container.addEventListener('touchmove', handleTouchMove, { passive: false });
+    container.addEventListener('touchend', handleTouchEnd, { passive: true });
+    window.addEventListener('keydown', handleKeyDown);
     
+    // Cleanup when component unmounts
     return () => {
       container.removeEventListener('wheel', handleWheel);
+      container.removeEventListener('touchstart', handleTouchStart);
+      container.removeEventListener('touchmove', handleTouchMove);
+      container.removeEventListener('touchend', handleTouchEnd);
+      window.removeEventListener('keydown', handleKeyDown);
     };
   }, [activeIndex, IMAGE_ARR.length]);
+
+  // Add navigation buttons for mobile
+  const goToPrevious = () => {
+    if (activeIndex > 0) {
+      setActiveIndex(prev => prev - 1);
+    }
+  };
+
+  const goToNext = () => {
+    if (activeIndex < IMAGE_ARR.length - 1) {
+      setActiveIndex(prev => prev + 1);
+    }
+  };
 
   return (
     <div 
@@ -142,6 +235,38 @@ export function Messages() {
           activeIndex={activeIndex}
         />
       ))}
+
+      {/* Navigation indicators/buttons for mobile */}
+      <div className="absolute bottom-4 left-0 right-0 flex justify-center items-center gap-2 z-10">
+        {IMAGE_ARR.map((_, index) => (
+          <div 
+            key={index}
+            className={`w-2 h-2 rounded-full cursor-pointer transition-all duration-300 
+              ${index === activeIndex ? 'bg-[#DAA520] w-4' : 'bg-gray-400'}`}
+            onClick={() => setActiveIndex(index)}
+          />
+        ))}
+      </div>
+
+      {/* Navigation arrows */}
+      <button 
+        className={`absolute left-4 top-1/2 transform -translate-y-1/2 text-white bg-black/40 
+          hover:bg-black/60 w-10 h-10 rounded-full flex items-center justify-center z-10
+          ${activeIndex === 0 ? 'opacity-30 cursor-not-allowed' : 'opacity-70 cursor-pointer'}`}
+        onClick={goToPrevious}
+        disabled={activeIndex === 0}
+      >
+        ←
+      </button>
+      <button 
+        className={`absolute right-4 top-1/2 transform -translate-y-1/2 text-white bg-black/40 
+          hover:bg-black/60 w-10 h-10 rounded-full flex items-center justify-center z-10
+          ${activeIndex === IMAGE_ARR.length - 1 ? 'opacity-30 cursor-not-allowed' : 'opacity-70 cursor-pointer'}`}
+        onClick={goToNext}
+        disabled={activeIndex === IMAGE_ARR.length - 1}
+      >
+        →
+      </button>
     </div>
   );
 }
